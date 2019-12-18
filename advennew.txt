@@ -1,0 +1,161 @@
+1.select Person.Person.FirstName,Person.EmailAddress.EmailAddress,Sales.Store.Name,Sales.Customer.CustomerID from Person.Person join Person.EmailAddress on Person.BusinessEntityID=EmailAddress.BusinessEntityID join Sales.Customer on Person.BusinessEntityID=Customer.PersonID join Sales.Store on Customer.StoreID=Store.BusinessEntityID where Sales.Store.Name='Bike World'; 
+
+Kerim	kerim0@adventure-works.com	Bike World	29809
+
+
+2.select Sales.Store.Name,Sales.Customer.CustomerID,Person.Address.City from Sales.Store join Sales.Customer on Store.BusinessEntityID=Customer.PersonID join Sales.SalesOrderHeader on Customer.TerritoryID=SalesOrderHeader.TerritoryID join Person.Address on Address.AddressID=SalesOrderHeader.SalesPersonID where Person.Address.City='Dallas'; // incorrect
+                                             (OR)
+SELECT sales.store.name , person.address.city FROM sales.store JOIN person.address ON sales.store.BusinessEntityID = person.address.AddressID WHERE person.address.city = 'Dallas';
+
+
+Channel Outlet	Dallas
+Bike Universe	Dallas
+Fifth Bike Store Dallas
+
+
+3.select count(*) from Sales.SalesOrderDetail join Production.Product on Sales.SalesOrderDetail.ProductID=Production.Product.ProductID where Production.Product.ListPrice>1000;
+                                              ( OR )
+SELECT COUNT(DISTINCT sales.SalesOrderDetail.SalesOrderDetailID) FROM Production.Product JOIN Production.ProductProductPhoto ON product.productid = ProductProductPhoto.ProductID JOIN sales.SpecialOfferProduct ON ProductProductPhoto.ProductID = SpecialOfferProduct.ProductID JOIN sales.SalesOrderDetail ON SpecialOfferProduct.ProductID = SalesOrderDetail.ProductID WHERE PRODUCTION.PRODUCT.ListPrice > 1000 ; 
+
+
+29382
+
+
+
+4.SELECT sales.SalesOrderHeader.SalesOrderID , sales.store.name , sales.SalesOrderHeader.SubTotal + Sales.SalesOrderHeader.Freight + sales.SalesOrderHeader.TaxAmt AS "TOTAL" FROM sales.SalesOrderHeader JOIN sales.Store ON sales.store.salespersonID = Sales.SalesOrderHeader.SalesPersonID WHERE sales.SalesOrderHeader.SubTotal + Sales.SalesOrderHeader.Freight + sales.SalesOrderHeader.TaxAmt > 100000 ;
+
+
+5.SELECT SUM(sales.SalesOrderDetail.OrderQty) AS TOTAL,Production.ProductModel.Name FROM Production.ProductModel join Production.Product on Production.ProductModel.ProductModelID=Production.Product.ProductModelID join  sales.SalesOrderDetail on Production.Product.ProductID = sales.SalesOrderDetail.ProductID join sales.SalesOrderHeader ON sales.SalesOrderDetail.SalesOrderID = sales.SalesOrderHeader.SalesOrderID join sales.customer ON sales.SalesOrderHeader.CustomerID = sales.Customer.CustomerID join Sales.store on Sales.Customer.PersonID = sales.Store.BusinessEntityID WHERE sales.store.name = 'Riding Cycles';
+
+
+6.select Sales.SalesOrderDetail.UnitPrice,Sales.SalesOrderDetail.SalesOrderID from Sales.SalesOrderDetail where sales.SalesOrderDetail.OrderQty=1;
+
+answer is too large.
+
+
+7.select distinct(sales.store.Name),Production.ProductModel.name from Production.ProductModel join Production.Product on Production.ProductModel.ProductModelID=Production.Product.ProductModelID join Sales.SalesOrderDetail on Sales.SalesOrderDetail.ProductID=Production.Product.ProductID join Sales.SalesOrderHeader on Sales.SalesOrderHeader.SalesOrderID=Sales.SalesOrderDetail.SalesOrderDetailID join Sales.Customer on Sales.SalesOrderHeader.CustomerID=Sales.Customer.CustomerID join  Sales.Store on Sales.Customer.StoreID=Sales.Store.BusinessEntityID  where Production.ProductModel.Name='Racing Socks';
+
+
+Alpine Ski House	Racing Socks
+Authentic Sales and Service	Racing Socks
+Beneficial Exercises and Activities	Racing Socks
+Chic Department Stores	Racing Socks
+Closeout Boutique	Racing Socks
+Coalition Bike Company	Racing Socks
+Corner Bicycle Supply	Racing Socks
+District Mall	Racing Socks
+Eastside Department Store	Racing Socks
+Eleventh Bike Store	Racing Socks
+Executive Gift Store	Racing Socks
+Extraordinary Bike Works	Racing Socks
+Fifth Bike Store	Racing Socks
+Gift and Toy Store	Racing Socks
+Glossy Bikes	Racing Socks
+Grand Industries	Racing Socks
+Great Bicycle Supply	Racing Socks
+Great Bikes 	Racing Socks
+Latest Sports Equipment	Racing Socks
+Leading Bike Distributors	Racing Socks
+Local Sales and Rental	Racing Socks
+Major Sporting Goods	Racing Socks
+Metro Sports Equipment	Racing Socks
+Moderately-Priced Bikes Store	Racing Socks
+National Manufacturing	Racing Socks
+Nearby Bike Mall	Racing Socks
+New Bikes Company	Racing Socks
+Off-Price Bike Center	Racing Socks
+Pedaling Components	Racing Socks
+Prosperous Tours	Racing Socks
+Recreation Systems	Racing Socks
+Retail Mall	Racing Socks
+Retreat Inn	Racing Socks
+Spa and Exercise Outfitters	Racing Socks
+Steel Inc.	Racing Socks
+Sturdy Toys	Racing Socks
+Suburban Cycle Shop	Racing Socks
+Tandem Sales and Service	Racing Socks
+The Accessories Store	Racing Socks
+Thorough Parts and Repair Services	Racing Socks
+Top Sports Supply	Racing Socks
+Ultimate Bike Shop	Racing Socks
+Yellow Bicycle Company	Racing Socks
+
+
+
+
+8.select Production.ProductDescription.Description,Production.Product.ProductID,Production.Culture.CultureID from Production.Culture join Production.ProductModelProductDescriptionCulture on Production.Culture.CultureID=Production.ProductModelProductDescriptionCulture.CultureID join Production.ProductDescription on Production.ProductModelProductDescriptionCulture.ProductDescriptionID=Production.ProductDescription.ProductDescriptionID join Production.Product on Production.Product.ProductModelID=Production.ProductModelProductDescriptionCulture.ProductModelID where Production.Product.ProductID=736 and Production.Culture.CultureID='fr';
+
+
+Le cadre LL en aluminium offre une conduite confortable, une excellente absorption des bosses pour un très bon rapport qualité-prix.	736	fr    
+
+
+9.select Sales.Store.Name,Sales.SalesOrderHeader.SubTotal,Production.Product.Weight from Production.Product join Sales.SalesOrderDetail on Production.Product.ProductID=Sales.SalesOrderDetail.ProductID join Sales.SalesOrderHeader on Sales.SalesOrderDetail.SalesOrderID=Sales.SalesOrderHeader.SalesOrderID join Sales.Customer on Sales.SalesOrderHeader.CustomerID=Sales.Customer.CustomerID join Sales.store on Sales.Customer.StoreID=Sales.Store.BusinessEntityID group by Sales.SalesOrderHeader.SalesOrderID,Sales.SalesOrderHeader.SubTotal,Sales.Store.Name,Production.Product.Weight order by Sales.SalesOrderHeader.SubTotal desc;
+
+answer is too large.
+
+10.select sum(Sales.SalesOrderDetail.OrderQty) from Production.ProductSubcategory join Production.Product on Production.ProductSubcategory.ProductSubcategoryID=Production.Product.ProductSubcategoryID join Sales.SalesOrderDetail on Production.Product.ProductID=Sales.SalesOrderDetail.ProductID join Sales.SalesOrderHeader on Sales.SalesOrderDetail.SalesOrderID=Sales.SalesOrderHeader.SalesOrderID join Person.Address on Sales.SalesOrderHeader.ShipToAddressID=Person.Address.AddressID where Production.ProductSubcategory.Name='Cranksets' and Person.Address.City='London';
+
+39
+
+
+
+11.
+
+
+
+
+12.select Sales.SalesOrderHeader.SalesOrderID,Sales.SalesOrderHeader.SubTotal,sum(Sales.SalesOrderDetail.OrderQty*Sales.SalesOrderDetail.UnitPrice),SUM(sales.salesorderdetail.orderqty*Production.Product.ListPrice) from Production.Product 
+join Sales.SalesOrderDetail on Production.Product.ProductID=Sales.SalesOrderDetail.ProductID join Sales.SalesOrderHeader on Sales.SalesOrderDetail.SalesOrderID=Sales.SalesOrderHeader.SalesOrderID group by Sales.SalesOrderHeader.SalesOrderID,Sales.SalesOrderHeader.SubTotal; 
+
+13.
+
+
+14.[SELECT SUM(production.ProductCategory.name), person.address.city  , COUNT(Production.ProductCategory.name) AS "TOT"
+FROM Production.ProductCategory join Production.ProductSubcategory ON 
+Production.ProductSubCategory.ProductCategoryID = Production.ProductSubcategory.ProductCategoryID 
+join Production.Product on Production.ProductSubcategory.ProductSubcategoryID=Production.Product.ProductSubcategoryID 
+join Sales.SalesOrderDetail on Production.Product.ProductID=Sales.SalesOrderDetail.ProductID 
+join Sales.SalesOrderHeader on Sales.SalesOrderDetail.SalesOrderID=Sales.SalesOrderHeader.SalesOrderID 
+join Person.Address on Sales.SalesOrderHeader.ShipToAddressID=Person.Address.AddressID WHERE max(TOT) 
+group by Production.ProductCategory.name , person.address.City LIMIT 3 ;
+
+SELECT city , count(*) AS "TOT" from person.Address group by city 
+order by TOT desc ;]---------->NO ANSWER
+
+
+
+London	434
+Paris	398
+Burien	215
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
