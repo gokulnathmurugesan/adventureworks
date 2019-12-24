@@ -99,7 +99,12 @@ answer is too large.
 
 
 
-11.
+11.select Person.AddressType.Name,Person.Address.City,Sales.Customer.CustomerID,Person.Address.AddressLine1 from Person.AddressType
+join Person.BusinessEntityAddress on Person.AddressType.AddressTypeID=Person.BusinessEntityAddress.AddressID
+join Person.Address on Person.BusinessEntityAddress.AddressID=Person.Address.AddressID
+join Sales.SalesOrderHeader on Person.Address.AddressID=ShipToAddressID
+join Sales.Customer on Sales.SalesOrderHeader.CustomerID=Sales.Customer.CustomerID
+where Person.Address.City='Dallas' and Person.AddressType.Name='Main Office' and Person.AddressType.Name='Shipping';
 
 
 
@@ -107,7 +112,20 @@ answer is too large.
 12.select Sales.SalesOrderHeader.SalesOrderID,Sales.SalesOrderHeader.SubTotal,sum(Sales.SalesOrderDetail.OrderQty*Sales.SalesOrderDetail.UnitPrice),SUM(sales.salesorderdetail.orderqty*Production.Product.ListPrice) from Production.Product 
 join Sales.SalesOrderDetail on Production.Product.ProductID=Sales.SalesOrderDetail.ProductID join Sales.SalesOrderHeader on Sales.SalesOrderDetail.SalesOrderID=Sales.SalesOrderHeader.SalesOrderID group by Sales.SalesOrderHeader.SalesOrderID,Sales.SalesOrderHeader.SubTotal; 
 
-13.
+13.select Sales.SalesOrderHeader.TotalDue*Sales.SalesOrderDetail.OrderQty as 'num_order',count(sales.SalesOrderDetail.OrderQty) as 'totalvalue'  from Sales.SalesOrderHeader
+join Sales.SalesOrderDetail on Sales.SalesOrderDetail.SalesOrderID=Sales.SalesOrderHeader.SalesOrderID
+where Sales.SalesOrderHeader.TotalDue*Sales.SalesOrderDetail.OrderQty between 0 and 99 group by Sales.SalesOrderHeader.TotalDue,Sales.SalesOrderDetail.OrderQty ;
+
+
+select Sales.SalesOrderHeader.TotalDue*Sales.SalesOrderDetail.OrderQty as 'num_order',count(sales.SalesOrderDetail.OrderQty) as 'totalvalue'  from Sales.SalesOrderHeader
+join Sales.SalesOrderDetail on Sales.SalesOrderDetail.SalesOrderID=Sales.SalesOrderHeader.SalesOrderID
+where Sales.SalesOrderHeader.TotalDue*Sales.SalesOrderDetail.OrderQty between 100 and 999 group by Sales.SalesOrderHeader.TotalDue,Sales.SalesOrderDetail.OrderQty ;
+
+
+select Sales.SalesOrderHeader.TotalDue*Sales.SalesOrderDetail.OrderQty as 'num_order',count(sales.SalesOrderDetail.OrderQty) as 'totalvalue'  from Sales.SalesOrderHeader
+join Sales.SalesOrderDetail on Sales.SalesOrderDetail.SalesOrderID=Sales.SalesOrderHeader.SalesOrderID
+where Sales.SalesOrderHeader.TotalDue*Sales.SalesOrderDetail.OrderQty between 1000 and 9999 group by Sales.SalesOrderHeader.TotalDue,Sales.SalesOrderDetail.OrderQty ;
+
 
 
 14.[SELECT SUM(production.ProductCategory.name), person.address.city  , COUNT(Production.ProductCategory.name) AS "TOT"
