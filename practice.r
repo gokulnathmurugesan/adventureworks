@@ -89,6 +89,44 @@ name<-c("a","b","c","d","e")
 country<-c("ind","mal","usa","afr","den")
 df1<-data.frame(id,name,country)
 df1
-total<-merge(df,df1,by="id")
-total
-agg
+
+mytable<-table(df,df1)
+mytable
+margin.table()
+z<-c('b','l')
+p<-c(1,2)
+z
+no<-c(3,4,5,6,7)
+gender<-c(4,5,9,0,1)
+com<-data.frame(no,gender)
+com
+sn<-c(4,5,7,8,9)
+cat<-c(6,7,8,9,2)
+fem<-data.frame(sn,cat)
+fem
+cov(com,use = "complete.obs")
+snn<-c(4,5,7,8,9)
+catt<-c(6,7,8,9,2)
+t.test(catt,snn)
+t<-c(4,5,56,77)
+r<-c(6,7,8,9)
+
+a <- 1:10
+b <- 21:30
+x <- "A"
+y <- "B"
+c <- c(x, x, y, x, y, y, x, x, y, x)
+m <- "C"
+n <- "D"
+o <- "E"
+p <- "F"
+d <- c(n, m, o, m, n, m, p, p, n, n)
+data <- data.frame(a,b,c,d)
+data
+table(data$c)
+data
+table(data$c, data$d)
+ytable<-table(data$c,data$d)
+ftable(ytable)
+margin.table(ytable,1)
+prop.table(ytable,2)
